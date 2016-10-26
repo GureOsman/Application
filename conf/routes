@@ -5,6 +5,18 @@
 module:testrunner
 
 GET     /                                       App.Index
+#######Donors########
+POST    /application/donors                     DonorsController.Create
+POST    /application/login                      DonorsController.Login
+GET    /application/donors                      DonorsController.List
+####city###########
+POST    /application/city                       CityController.Create
+GET    /application/city                        CityController.List
+##############bloood##########
+POST    /application/blood                      BloodController.Create
+GET    /application/blood                       BloodController.List
+
+
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

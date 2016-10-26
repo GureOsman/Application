@@ -1,7 +1,13 @@
 package app
 
-import "github.com/revel/revel"
-
+import (
+	"github.com/revel/revel"
+	"github.com/jinzhu/gorm"
+	_"github.com/jinzhu/gorm/dialects/sqlite"
+	"log"
+	"github.com/gureosman/Application/app/models"
+)
+var Db *gorm.DB
 func init() {
 	// Filters is the default set of global filters.
 	revel.Filters = []revel.Filter{
@@ -18,6 +24,21 @@ func init() {
 		revel.CompressFilter,          // Compress the result.
 		revel.ActionInvoker,           // Invoke the action.
 	}
+	revel.OnAppStart (func() {
+		var err error
+		Db, err = gorm.Open("sqlite3","./database/Travel.db")
+		if err != nil{
+			log.Fatal(err)
+		}
+		Db.CreateTable(&models.Donors{});
+		Db.CreateTable(&models.City{});
+		Db.CreateTable(&models.Blood{});
+		Db.DB().SetMaxIdleConns(10)
+		Db.DB().SetMaxOpenConns(100)
+		Db.SingularTable(false)
+		Db.LogMode(true)
+
+	})
 
 	// register startup functions with OnAppStart
 	// ( order dependent )
